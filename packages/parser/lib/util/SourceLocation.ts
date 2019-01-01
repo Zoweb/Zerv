@@ -1,17 +1,19 @@
 /**
  * A location in the source code
- * @type {module.SourceLocation}
  */
-module.exports = class SourceLocation {
+export default class SourceLocation {
+    start: Position;
+    end: Position;
+
+    filename: string;
+    identifierName?: string;
+
     /**
-     * @param {Position} start
-     * @param {Position} end
+     * @param start
+     * @param end
      */
-    constructor(start, end) {
+    constructor(start: Position, end?: Position) {
         this.start = start;
         this.end = end;
-
-        this.filename = null;
-        this.identifierName = null;
     }
-};
+}
