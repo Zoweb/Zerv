@@ -1,25 +1,37 @@
 /**
  * Line and column-based position
- * @type {module.Position}
  */
-module.exports = class Position {
+import {lineBreakG} from "./whitespace";
+
+export default class Position {
     /**
      * Gets a position from text and an offset
-     * @param {string} input - Input source
-     * @param {int} offset - Offset of the position
+     * @param input - Input source
+     * @param offset - Offset of the position
      */
-    fromFileInfo(input, offset) {
+    static fromFileInfo(input, offset) {
         let line = 1;
         let lineStart = 0;
         let match;
+
+        lineBreakG.lastIndex = 0;
+        while ((match = lineBreakG.exec(input)) && match.index < offset) {
+            line++;
+            lineStart = lineBreakG.lastIndex;
+        }
+
+        return new Position(line, offset - lineStart);
     }
 
+    line: number;
+    column: number;
+
     /**
-     * @param {int} line
-     * @param {int} column
+     * @param line
+     * @param column
      */
     constructor(line, column) {
         this.line = line;
         this.column = column;
     }
-};
+}
