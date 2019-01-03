@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:z-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Zerv Integration Tests</title>
 </head>
 <body>
-$END$
+<div id="app">
+
+    <h1>{{title}}</h1>
+    <p>Welcome,
+        <strong z-bind:style="styleAttribute">{{user.name}}</strong>
+        ({{user.email.name}}@{{user.email.host}}:{{user.email.other.port}})</p>
+
+</div>
+<script src="app.ts"></script>
 </body>
 </html>

@@ -1,0 +1,36 @@
+{
+  "name": "@zerv/integration-tests",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Zerv manual integration tests",
+  "author": "Zach Barham <zachymach@live.com>",
+  "homepage": "https://github.com/Zoweb/Zerv#readme",
+  "license": "MIT",
+  "main": "lib/integration-tests.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zoweb/Zerv.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/Zoweb/Zerv/issues"
+  },
+  "dependencies": {
+    "@zerv/framework": "^0.1.0",
+    "@zerv/core": "^0.1.0"
+  },
+  "devDependencies": {
+    "parcel": "^1.11.0"
+  }
+}
