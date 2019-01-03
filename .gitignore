@@ -120,3 +120,5 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+_testing.ts
