@@ -122,3 +122,7 @@ fabric.properties
 .idea/httpRequests
 
 _testing.ts
+
+# Parcel
+.cache/
+dist/
