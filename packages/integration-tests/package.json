@@ -1,6 +1,6 @@
 {
   "name": "@zerv/integration-tests",
-  "version": "0.1.0",
+  "version": "0.2.0-alpha.0",
   "private": true,
   "description": "Zerv manual integration tests",
   "author": "Zach Barham <zachymach@live.com>",
@@ -27,8 +27,8 @@
     "url": "https://github.com/Zoweb/Zerv/issues"
   },
   "dependencies": {
-    "@zerv/framework": "^0.1.0",
-    "@zerv/core": "^0.1.0"
+    "@zerv/core": "^0.2.0-alpha.0",
+    "@zerv/framework": "^0.2.0-alpha.0"
   },
   "devDependencies": {
     "parcel": "^1.11.0"

@@ -1,6 +1,6 @@
 {
   "name": "@zerv/framework",
-  "version": "0.1.0",
+  "version": "0.2.0-alpha.0",
   "description": "Zerv client-side framework",
   "author": "Zach Barham <zachymach@live.com>",
   "homepage": "https://github.com/Zoweb/Zerv#readme",
@@ -27,7 +27,7 @@
     "url": "https://github.com/Zoweb/Zerv/issues"
   },
   "dependencies": {
-    "@zerv/search": "^0.1.0",
+    "@zerv/search": "^0.2.0-alpha.0",
     "jsep": "^0.3.4"
   }
 }
