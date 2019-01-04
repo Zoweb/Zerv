@@ -169,6 +169,20 @@ export default class TemplateValueEvaluator {
             }
         }
 
+        if (part.type === "CallExpression") {
+            const partCallExpression = part as CallExpression;
+
+            const callArgs = partCallExpression.arguments.map(it => this.evaluate(it));
+            const callName = this.findIdentifier(partCallExpression.callee);
+
+            const method = this.methods[callName];
+            if (typeof method === "undefined") throw new TypeError(`Could not find method \`${callName}\``);
+            if (!(method instanceof Function)) throw new TypeError(`\`${callName}\` is not a function.`);
+
+            console.debug("Calling", callName, "(", callArgs, ")");
+            result = method(...callArgs);
+        }
+
         if (part.type === "ConditionalExpression") {
             const partConditionalExpression = part as ConditionalExpression;
 
