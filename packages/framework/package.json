@@ -2,7 +2,7 @@
   "name": "@zerv/framework",
   "version": "0.2.0-alpha.0",
   "description": "Zerv client-side framework",
-  "author": "Zach Barham <zachymach@live.com>",
+  "author": "Zach Barham <zerv@email.cloud.zoweb.me>",
   "homepage": "https://github.com/Zoweb/Zerv#readme",
   "license": "MIT",
   "main": "lib/Zerv.ts",

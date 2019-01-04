@@ -2,7 +2,7 @@
   "name": "@zerv/core",
   "version": "0.1.1",
   "description": "Zerv Core",
-  "author": "Zach Barham <zachymach@live.com>",
+  "author": "Zach Barham <zerv@email.cloud.zoweb.me>",
   "homepage": "https://github.com/Zoweb/Zerv#readme",
   "license": "MIT",
   "main": "lib/core.ts",

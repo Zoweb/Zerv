@@ -2,7 +2,7 @@
   "name": "@zerv/search",
   "version": "0.2.0",
   "description": "Searches for templates inside ",
-  "author": "Zach Barham <zachymach@live.com>",
+  "author": "Zach Barham <zerv@email.cloud.zoweb.me>",
   "homepage": "https://github.com/Zoweb/Zerv#readme",
   "license": "MIT",
   "main": "lib/search.ts",
