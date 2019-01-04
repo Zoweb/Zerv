@@ -254,6 +254,11 @@ export default class TemplateValueEvaluator {
             throw new TypeError("This expressions are not supported");
         }
 
+        if (part.type === "UnaryExpression") {
+            // not yet supported
+            throw new TypeError("Unary expressions are not supported");
+        }
+
         return result;
     }
 }
