@@ -147,6 +147,12 @@ export default class TemplateValueEvaluator {
     evaluate(part: Expression = this.ast): any {
         let result: any;
 
+        if (part.type === "ArrayExpression") {
+            const partArrayExpression = part as ArrayExpression;
+
+            result = partArrayExpression.elements.map(it => this.evaluate(it));
+        }
+
         if (part.type === "BinaryExpression") {
             const partBinary = part as BinaryExpression;
 
