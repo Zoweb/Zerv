@@ -98,6 +98,10 @@ export default class TemplateValueEvaluator {
             valueList.push(...identifierList);
         }
 
+        if (part.type === "ThisExpression") {
+            // do nothing
+        }
+
         return {
             identifierList,
             valueList
