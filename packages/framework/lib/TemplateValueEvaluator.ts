@@ -215,6 +215,14 @@ export default class TemplateValueEvaluator {
             result = method(...callArgs);
         }
 
+        if (part.type === "Compound") {
+            const partCompound = part as Compound;
+
+            // evaluate all expressions, but only get value of the last one
+            const results = partCompound.body.map(it => this.evaluate(it));
+            result = results[results.length - 1];
+        }
+
         if (part.type === "ConditionalExpression") {
             const partConditionalExpression = part as ConditionalExpression;
 
