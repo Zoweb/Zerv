@@ -1,4 +1,5 @@
-import jsep, {BinaryExpression, Expression, Identifier, Literal, MemberExpression} from "jsep";
+import {BinaryExpression, CallExpression, Expression, Identifier, Literal, MemberExpression} from "jsep";
+import * as jsep from "jsep";
 
 export default class TemplateValueEvaluator {
     static parse(input: string) {
@@ -11,6 +12,7 @@ export default class TemplateValueEvaluator {
     source: string;
 
     scope: any = {};
+    methods: {[name: string]: Function};
 
     constructor(source: string) {
         this.source = source;
@@ -19,7 +21,7 @@ export default class TemplateValueEvaluator {
         this.identifiers = this.findIdentifiers(this.ast).identifierList;
     }
 
-    findIdentifiers(part: Expression) {
+    findIdentifiers(part: Expression = this.ast) {
         const identifierList: string[] = [];
         const valueList: (string | number | boolean)[] = [];
 
@@ -51,7 +53,12 @@ export default class TemplateValueEvaluator {
         }
 
         if (part.type === "CallExpression") {
-            throw new TypeError("Function calls are not yet supported in Zerv");
+            const partCallExpression = part as CallExpression;
+            for (const argument of partCallExpression.arguments) {
+                identifierList.push(...this.findIdentifiers(argument).identifierList);
+            }
+
+            valueList.push(...identifierList);
         }
 
         return {
