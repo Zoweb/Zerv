@@ -169,6 +169,17 @@ export default class TemplateValueEvaluator {
             }
         }
 
+        if (part.type === "ConditionalExpression") {
+            const partConditionalExpression = part as ConditionalExpression;
+
+            const test = this.evaluate(partConditionalExpression.test);
+            const consequent = () => this.evaluate(partConditionalExpression.consequent);
+            const alternate = () => this.evaluate(partConditionalExpression.alternate);
+
+            if (test) result = consequent();
+            else result = alternate();
+        }
+
         if (part.type === "Identifier") {
             const path = this.findIdentifier(part);
             result = this.read(path);
