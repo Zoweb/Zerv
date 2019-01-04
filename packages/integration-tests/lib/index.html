@@ -7,10 +7,10 @@
 <body>
 <div id="app">
 
-    <h1>{{title}}</h1>
-    <p>Welcome,
-        <strong z-bind:style="styleAttribute">{{user.name}}</strong>
-        ({{user.email.name}}@{{user.email.host}}:{{user.email.other.port}})</p>
+    <h1>{{title + " (yeet)"}}</h1>
+    <p>{{test + 5}}</p>
+
+    <input type="text" z-bind="title" z-bind:value="title" />
 
 </div>
 <script src="app.ts"></script>
