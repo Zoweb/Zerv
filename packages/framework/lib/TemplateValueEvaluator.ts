@@ -155,7 +155,7 @@ export default class TemplateValueEvaluator {
             result = partArrayExpression.elements.map(it => this.evaluate(it));
         }
 
-        if (part.type === "BinaryExpression") {
+        if (part.type === "BinaryExpression" || part.type === "LogicalExpression") {
             const partBinary = part as BinaryExpression;
 
             const left = () => this.evaluate(partBinary.left);
