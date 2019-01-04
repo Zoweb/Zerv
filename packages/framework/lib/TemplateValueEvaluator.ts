@@ -1,7 +1,7 @@
 import {
     ArrayExpression,
     BinaryExpression,
-    CallExpression,
+    CallExpression, Compound,
     Expression,
     Identifier,
     Literal,
@@ -30,6 +30,8 @@ export default class TemplateValueEvaluator {
     }
 
     findIdentifiers(part: Expression = this.ast) {
+        console.debug("Finding expresion in", part.type);
+
         const identifierList: string[] = [];
         const valueList: (string | number | boolean)[] = [];
 
@@ -53,6 +55,15 @@ export default class TemplateValueEvaluator {
             const partCallExpression = part as CallExpression;
             for (const argument of partCallExpression.arguments) {
                 identifierList.push(...this.findIdentifiers(argument).identifierList);
+            }
+
+            valueList.push(...identifierList);
+        }
+
+        if (part.type === "Compound") {
+            const partCompound = part as Compound;
+            for (const expression of partCompound.body) {
+                identifierList.push(...this.findIdentifiers(expression).identifierList);
             }
 
             valueList.push(...identifierList);
