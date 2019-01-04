@@ -27,6 +27,7 @@
     "url": "https://github.com/Zoweb/Zerv/issues"
   },
   "dependencies": {
-    "@zerv/search": "^0.1.0"
+    "@zerv/search": "^0.1.0",
+    "jsep": "^0.3.4"
   }
 }
