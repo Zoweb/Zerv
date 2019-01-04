@@ -1,22 +1,11 @@
 import Zerv from "@zerv/framework";
-//Zerv.disableDebugLogging();
+Zerv.disableDebugLogging();
 
 const app = new Zerv("#app");
 
 app.data.title = "Test App";
-app.data.styleAttribute = "background: blue";
+app.data.test = 4;
 
-app.data.user = {
-    name: "test"
-};
-app.data.user.email = {
-    name: "testing",
-    host: "example.com"
-};
-app.data.user.email.other = {
-    port: 80
-};
+setTimeout(() => app.data.test = 100, 1000);
 
 app.render();
-
-setTimeout(() => app.data.styleAttribute = "font-weight:400", 1000);
