@@ -78,15 +78,15 @@ export default class TemplateValueEvaluator {
             valueList.push(...identifierList);
         }
 
-        if (part.type === "Literal") {
-            const partLiteral = part as Literal;
-            valueList.push(partLiteral.value.toString());
-        }
-
         if (part.type === "Identifier") {
             const partIdentifier = part as Identifier;
             identifierList.push(partIdentifier.name);
             valueList.push(...identifierList);
+        }
+
+        if (part.type === "Literal") {
+            const partLiteral = part as Literal;
+            valueList.push(partLiteral.value.toString());
         }
 
         if (part.type === "MemberExpression") {
