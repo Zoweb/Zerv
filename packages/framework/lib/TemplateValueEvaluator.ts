@@ -249,6 +249,11 @@ export default class TemplateValueEvaluator {
             result = this.read(path);
         }
 
+        if (part.type === "ThisExpression") {
+            // not yet supported
+            throw new TypeError("This expressions are not supported");
+        }
+
         return result;
     }
 }
