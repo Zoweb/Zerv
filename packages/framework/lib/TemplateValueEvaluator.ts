@@ -42,26 +42,6 @@ export default class TemplateValueEvaluator {
             valueList.push(...identifierList);
         }
 
-        if (part.type === "Identifier") {
-            const partIdentifier = part as Identifier;
-            identifierList.push(partIdentifier.name);
-            valueList.push(...identifierList);
-        }
-
-        if (part.type === "MemberExpression") {
-            const partMemberExpression = part as MemberExpression;
-            const identifier = [];
-            identifier.push(...this.findIdentifiers(partMemberExpression.object).valueList);
-            identifier.push(...this.findIdentifiers(partMemberExpression.property).valueList);
-            identifierList.push(identifier.join("."));
-            valueList.push(...identifierList);
-        }
-
-        if (part.type === "Literal") {
-            const partLiteral = part as Literal;
-            valueList.push(partLiteral.value.toString());
-        }
-
         if (part.type === "BinaryExpression") {
             const partBinaryExpression = part as BinaryExpression;
             identifierList.push(...this.findIdentifiers(partBinaryExpression.left).identifierList);
@@ -75,6 +55,26 @@ export default class TemplateValueEvaluator {
                 identifierList.push(...this.findIdentifiers(argument).identifierList);
             }
 
+            valueList.push(...identifierList);
+        }
+
+        if (part.type === "Literal") {
+            const partLiteral = part as Literal;
+            valueList.push(partLiteral.value.toString());
+        }
+
+        if (part.type === "Identifier") {
+            const partIdentifier = part as Identifier;
+            identifierList.push(partIdentifier.name);
+            valueList.push(...identifierList);
+        }
+
+        if (part.type === "MemberExpression") {
+            const partMemberExpression = part as MemberExpression;
+            const identifier = [];
+            identifier.push(...this.findIdentifiers(partMemberExpression.object).valueList);
+            identifier.push(...this.findIdentifiers(partMemberExpression.property).valueList);
+            identifierList.push(identifier.join("."));
             valueList.push(...identifierList);
         }
 
