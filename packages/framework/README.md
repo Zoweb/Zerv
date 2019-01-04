@@ -1,11 +1,39 @@
 # `@zerv/framework`
 
-> TODO: description
+> Zerv frontend framework system
 
-## Usage
+## Example
 
+```html
+<!-- index.html -->
+...
+<div id="app">
+<h1>{{title}}</h1>
+<p>Welcome, <strong>{{user.name}}</strong>. This is your visit number {{user.visitCount + 1}}!</p>
+<p>Your email is {{user.email.name}}@{{user.email.host}}</p>
+<p>Want a different username? Type it in here: <input type="text" z-bind="user.name" /></p>
+</div>
+...
+<script src="app.ts"></script>
 ```
-const framework = require('@zerv/framework');
+```typescript
+import Zerv from "@zerv/framework";
+Zerv.disableDebugLogging(); // Currently required to remove debug logs.
 
-// TODO: DEMONSTRATE API
+// Create a new Zerv app. View options below.
+const app = new Zerv("#app");
+
+// Set data before rendering to prevent flickers and warnings.
+app.data.user = {
+    title: "Test App",
+    name: "FooMan",
+    visitCount: 52,
+    email: {
+        name: "fooman",
+        host: "example.com"
+    }
+};
+
+app.render();
+
 ```
