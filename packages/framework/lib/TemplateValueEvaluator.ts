@@ -5,7 +5,7 @@ import {
     Expression,
     Identifier,
     Literal,
-    MemberExpression
+    MemberExpression, UnaryExpression
 } from "jsep";
 import * as jsep from "jsep";
 
@@ -100,6 +100,12 @@ export default class TemplateValueEvaluator {
 
         if (part.type === "ThisExpression") {
             // do nothing
+        }
+
+        if (part.type === "UnaryExpression") {
+            const partUnaryExpression = part as UnaryExpression;
+            identifierList.push(...this.findIdentifiers(partUnaryExpression.argument).identifierList);
+            valueList.push(...identifierList);
         }
 
         return {
