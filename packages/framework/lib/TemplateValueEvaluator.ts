@@ -147,11 +147,6 @@ export default class TemplateValueEvaluator {
     evaluate(part: Expression = this.ast): any {
         let result: any;
 
-        if (part.type === "Literal") {
-            const partLiteral = part as Literal;
-            result = partLiteral.value;
-        }
-
         if (part.type === "BinaryExpression") {
             const partBinary = part as BinaryExpression;
 
@@ -166,7 +161,17 @@ export default class TemplateValueEvaluator {
             }
         }
 
-        if (part.type === "MemberExpression" || part.type === "Identifier") {
+        if (part.type === "Identifier") {
+            const path = this.findIdentifier(part);
+            result = this.read(path);
+        }
+
+        if (part.type === "Literal") {
+            const partLiteral = part as Literal;
+            result = partLiteral.value;
+        }
+
+        if (part.type === "MemberExpression") {
             const path = this.findIdentifier(part);
             result = this.read(path);
         }
