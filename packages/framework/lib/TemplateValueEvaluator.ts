@@ -1,4 +1,4 @@
-import {
+import jsep, {
     ArrayExpression,
     BinaryExpression,
     CallExpression, Compound, ConditionalExpression,
@@ -7,7 +7,6 @@ import {
     Literal,
     MemberExpression, UnaryExpression
 } from "jsep";
-import * as jsep from "jsep";
 
 export default class TemplateValueEvaluator {
     static parse(input: string) {
