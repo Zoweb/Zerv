@@ -1,7 +1,7 @@
 import {
     ArrayExpression,
     BinaryExpression,
-    CallExpression, Compound,
+    CallExpression, Compound, ConditionalExpression,
     Expression,
     Identifier,
     Literal,
@@ -65,6 +65,15 @@ export default class TemplateValueEvaluator {
             for (const expression of partCompound.body) {
                 identifierList.push(...this.findIdentifiers(expression).identifierList);
             }
+
+            valueList.push(...identifierList);
+        }
+
+        if (part.type === "ConditionalExpression") {
+            const partConditionalExpression = part as ConditionalExpression;
+            identifierList.push(...this.findIdentifiers(partConditionalExpression.test).identifierList);
+            identifierList.push(...this.findIdentifiers(partConditionalExpression.consequent).identifierList);
+            identifierList.push(...this.findIdentifiers(partConditionalExpression.alternate).identifierList);
 
             valueList.push(...identifierList);
         }
