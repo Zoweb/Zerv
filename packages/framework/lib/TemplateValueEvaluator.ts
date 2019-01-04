@@ -1,4 +1,12 @@
-import {BinaryExpression, CallExpression, Expression, Identifier, Literal, MemberExpression} from "jsep";
+import {
+    ArrayExpression,
+    BinaryExpression,
+    CallExpression,
+    Expression,
+    Identifier,
+    Literal,
+    MemberExpression
+} from "jsep";
 import * as jsep from "jsep";
 
 export default class TemplateValueEvaluator {
@@ -24,6 +32,15 @@ export default class TemplateValueEvaluator {
     findIdentifiers(part: Expression = this.ast) {
         const identifierList: string[] = [];
         const valueList: (string | number | boolean)[] = [];
+
+        if (part.type === "ArrayExpression") {
+            const partArrayExpression = part as ArrayExpression;
+            for (const expression of partArrayExpression.elements) {
+                identifierList.push(...this.findIdentifiers(expression).identifierList);
+            }
+
+            valueList.push(...identifierList);
+        }
 
         if (part.type === "Identifier") {
             const partIdentifier = part as Identifier;
