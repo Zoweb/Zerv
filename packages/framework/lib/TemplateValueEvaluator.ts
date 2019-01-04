@@ -158,14 +158,46 @@ export default class TemplateValueEvaluator {
         if (part.type === "BinaryExpression") {
             const partBinary = part as BinaryExpression;
 
-            const left = this.evaluate(partBinary.left);
-            const right = this.evaluate(partBinary.right);
+            const left = () => this.evaluate(partBinary.left);
+            const right = () => this.evaluate(partBinary.right);
 
             switch (partBinary.operator) {
-                case "+": result = left + right; break;
-                case "-": result = left - right; break;
-                case "*": result = left * right; break;
-                case "/": result = left / right; break;
+                // Multiplicative operators
+                case "*": result = left() * right(); break;
+                case "/": result = left() / right(); break;
+                case "%": result = left() % right(); break;
+
+                // Additive operators
+                case "+": result = left() + right(); break;
+                case "-": result = left() - right(); break;
+
+                // Bitwise shift operators
+                case "<<": result = left() << right(); break;
+                case ">>": result = left() >> right(); break;
+                case ">>>": result = left() >>> right(); break;
+
+                // Relational Operators
+                case "<": result = left() < right(); break;
+                case ">": result = left() > right(); break;
+                case "<=": result = left() <= right(); break;
+                case ">=": result = left() >= right(); break;
+                case "instanceof": result = left() instanceof right(); break;
+                case "in": result = left() in right(); break;
+
+                // Equality operators
+                case "==": result = left() == right(); break;
+                case "!=": result = left() != right(); break;
+                case "===": result = left() === right(); break;
+                case "!==": result = left() !== right(); break;
+
+                // Binary bitwise operators
+                case "&": result = left() & right(); break;
+                case "^": result = left() & right(); break;
+                case "|": result = left() | right(); break;
+
+                // Binary logical operators
+                case "&&": result = left() && right(); break;
+                case "||": result = left() || right(); break;
             }
         }
 
