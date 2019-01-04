@@ -145,6 +145,8 @@ export default class TemplateValueEvaluator {
      * Evaluates the source using the scope, and returns the result
      */
     evaluate(part: Expression = this.ast): any {
+        console.debug("Evaluating expression in", part.type);
+
         let result: any;
 
         if (part.type === "ArrayExpression") {
