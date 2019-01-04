@@ -3,6 +3,8 @@ import search from "@zerv/search/lib/search";
 import {SearchResultType} from "@zerv/search/lib/ISearchResult";
 import Zerv from "./Zerv";
 import IElementData from "./IElementData";
+import TemplateValueEvaluator from "./TemplateValueEvaluator";
+import withElementStack from "./withElementStack";
 
 export class ZervNestedProxyHandler implements ProxyHandler<object> {
     static isProxy = Symbol("Object Is Proxy");
@@ -47,7 +49,7 @@ export class ZervNestedProxyHandler implements ProxyHandler<object> {
         // loop through the elements inside this object, and make them be proxies if they are not
         if (value[ZervNestedProxyHandler.isProxy] !== true && typeof value === "object" && value !== null) {
             for (const key of Object.keys(value)) {
-                const val = value[key];
+                let val = value[key];
                 if (typeof val !== "object" || val === null) {
                     console.debug("Value is not an object");
                     continue;
@@ -90,9 +92,7 @@ export default class ZervProxyHandler extends ZervNestedProxyHandler {
             }, data);
 
         const last = split.slice(-1)[0];
-        //el[ZervNestedProxyHandler.skipPassdownSymbol] = true;
         el[last] = value;
-        //el[ZervNestedProxyHandler.skipPassdownSymbol] = false;
     }
 
     private static updateNodeValue(
@@ -103,7 +103,7 @@ export default class ZervProxyHandler extends ZervNestedProxyHandler {
         attributeName?: string
     ) {
         if (type === "attribute" && typeof attributeName === "undefined")
-            throw new TypeError("Attribute name must be specified when adding an attribute changer.");
+            throw withElementStack(new TypeError("Attribute name must be specified when adding an attribute changer."), node);
 
         console.debug("Updating node name for", node, ":", newValue);
 
@@ -123,7 +123,10 @@ export default class ZervProxyHandler extends ZervNestedProxyHandler {
 
         console.debug("Updating node value to", newValue);
         if (type === "text") node.textContent = newValue;
-        if (type === "attribute" && node instanceof HTMLElement) node.setAttribute(attributeName, newValue);
+        if (type === "attribute" && node instanceof HTMLElement) {
+            if (attributeName === "value" && node instanceof HTMLInputElement) node.value = newValue;
+            node.setAttribute(attributeName, newValue);
+        }
     }
 
     private symbols = {
@@ -182,24 +185,33 @@ export default class ZervProxyHandler extends ZervNestedProxyHandler {
 
             const sectionContent = dataSection.content;
 
-            if (typeof this.observedPaths[sectionContent] === "undefined")
-                this.observedPaths[sectionContent] = [];
+            const evaluator = new TemplateValueEvaluator(sectionContent);
 
-            this.observedPaths[sectionContent].push({
-                onChange(newValue: any) {
-                    ZervProxyHandler.updateNodeValue(node, type, newValue, sectionContent, value => {
-                        nodeValues[i] = value;
-                        return nodeValues.join("");
-                    }, attributeName);
-                },
-                nodeId: node[this.symbols.nodeId]
-            });
+            for (const observedPath of evaluator.identifiers) {
+                if (typeof this.observedPaths[observedPath] === "undefined") this.observedPaths[observedPath] = [];
 
-            const firstNewValue = ZervProxyHandler.getDataValue(this.app._realData, sectionContent);
-            ZervProxyHandler.updateNodeValue(node, type, firstNewValue, sectionContent, value => {
+                this.observedPaths[observedPath].push({
+                    nodeId: node[this.symbols.nodeId],
+                    onChange(newValue: any) {
+                        evaluator.update(observedPath, newValue);
+                        const value = evaluator.evaluate();
+
+                        ZervProxyHandler.updateNodeValue(node, type, value, observedPath, value => {
+                            nodeValues[i] = value;
+                            return nodeValues.join("");
+                        }, attributeName);
+                    }
+                });
+
+                const firstValue = ZervProxyHandler.getDataValue(this.app._realData, observedPath);
+                evaluator.update(observedPath, firstValue);
+                const firstValueEvaluated = evaluator.evaluate();
+
+                ZervProxyHandler.updateNodeValue(node, type, firstValueEvaluated, observedPath, value => {
                     nodeValues[i] = value;
                     return nodeValues.join("");
                 }, attributeName);
+            }
         }
     }
 
@@ -223,6 +235,23 @@ export default class ZervProxyHandler extends ZervNestedProxyHandler {
                 node.removeAttribute(attributeName);
 
                 this.addNodeChanger(node, "attribute", fixedAttributeName);
+            }
+
+            if (node.hasAttribute("z-bind")) {
+                // node value is bound to a variable
+                const variableName = node.getAttribute("z-bind");
+                node.removeAttribute("z-bind");
+
+                const listener = () => {
+                    setTimeout(() => {
+                        const newValue = (<HTMLInputElement> node).value || node.textContent;
+                        ZervProxyHandler.setDataValue(this.app.data, variableName, newValue);
+                    }, 0);
+                };
+
+                node.addEventListener("change", listener);
+                node.addEventListener("keydown", listener);
+                node.addEventListener("input", listener);
             }
         } else {
             this.addNodeChanger(node, "text");
@@ -278,29 +307,6 @@ export default class ZervProxyHandler extends ZervNestedProxyHandler {
         console.debug("Detected change:", target, prop, value, receiver, handler, createProxy, iteration);
 
         if (iteration > 50) throw new Error("Overflow: something broke");
-
-        /*if (createProxy) {
-            if (typeof value === "object" && value !== null) {
-                console.debug("Value", value, "is an object.");
-
-                const realValue = value;
-                const nestedHandler = new ZervNestedProxyHandler(handler || this, prop.toString());
-                value = new Proxy(value, nestedHandler);
-
-                for (const key of Object.keys(value)) {
-                    const innerValue = value[key];
-                    console.debug("Setting value at", key, ":", innerValue);
-
-                    nestedHandler.set(realValue, key, innerValue, value, undefined, false, iteration + 1);
-
-                    value[key] = innerValue;
-                }
-            } else {
-                console.debug("Not an object.");
-            }
-        } else {
-            console.debug("Not creating proxy");
-        }*/
 
         if (typeof handler !== "undefined") {
             prop = `${handler.path.substr(1)}.${prop.toString()}`;
