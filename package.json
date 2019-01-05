@@ -14,9 +14,6 @@
     "coverage": "jest --collectCoverage --coverageDirectory coverage",
     "now-build": "parcel build docs/*.html"
   },
-  "devDependencies": {
-    "parcel": "^1.11.0"
-  },
   "jest": {
     "moduleFileExtensions": [
       "ts",
