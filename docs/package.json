@@ -12,6 +12,6 @@
     "parcel": "^1.11.0"
   },
   "scripts": {
-    "now-build": "parcel build *.html"
+    "now-build": "parcel build *.html --out-dir ../dist"
   }
 }
