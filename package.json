@@ -11,8 +11,7 @@
   },
   "scripts": {
     "test": "jest",
-    "coverage": "jest --collectCoverage --coverageDirectory coverage",
-    "now-build": "parcel build docs/*.html"
+    "coverage": "jest --collectCoverage --coverageDirectory coverage"
   },
   "jest": {
     "moduleFileExtensions": [
