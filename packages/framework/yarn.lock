@@ -2,7 +2,24 @@
 # yarn lockfile v1
 
 
+"@zerv/search@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@zerv/search/-/search-0.2.1.tgz#2f693d20932a1d501bc4e916392fc8d814d397ab"
+  integrity sha512-VLVRF6BzmsMNQinDwwkAE/EqV4BnxfDrf9fEP/aw7aU1uDg7K9pGTwQwvQhrOYoDNR5SoWNrOCvmTzHl+GQ2rA==
+  dependencies:
+    escape-string-regexp latest
+
+escape-string-regexp@latest:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
+  integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
+
 jsep@^0.3.4:
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/jsep/-/jsep-0.3.4.tgz#55ebd4400c5c5861cb1ff949a7a4cd97fcaacaa0"
   integrity sha512-ovGD9wE+wvudIIYxZGrRcZCxNyZ3Cl1N7Bzyp7/j4d/tA0BaUwcVM9bu0oZaSrefMiNwv6TwZ9X15gvZosteCQ==
+
+typescript@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.2.tgz#fe8101c46aa123f8353523ebdcf5730c2ae493e5"
+  integrity sha512-VCj5UiSyHBjwfYacmDuc/NOk4QQixbE+Wn7MFJuS0nRuPQbof132Pw4u53dm264O8LPc2MVsc7RJNml5szurkg==

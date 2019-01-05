@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zerv Docs</title>
+
+    <link href="css/index.css" rel="stylesheet" />
+</head>
+<body class="-theme -colour blue -lightness light">
+<div id="app">
+
+    <nav id="navbar">
+        <section class="title">
+            <a href="/index.html">{{app.name}}</a>
+        </section>
+
+        <section class="right-section">
+            <section>
+                <span><a href="/getting-started.html">Getting Started</a></span>
+            </section>
+            <section>
+                <span>Modules</span>
+
+                <ul class="dropdown">
+                    <li><a href="#/module-frontend.html">Frontend</a></li>
+                </ul>
+            </section>
+        </section>
+    </nav>
+    <main>
+
+        <h1>Getting Started</h1>
+        <p>Zerv is a web framework that offers no-hassle templating and app creation.</p>
+
+        <p>First install using Yarn or npm:</p>
+
+        <p><strong>Yarn:</strong></p>
+        <pre>
+yarn add @zerv/core</pre>
+
+        <p><strong>NPM:</strong></p>
+        <pre>
+npm install -g parcel-bundler</pre>
+
+        <p>Then create your app webpage. Wherever you want a value to be replaced by your data, reference the path
+            to it within <code>{&zwj;{</code> and <code>}}</code></p>
+        <pre>
+&lt;html>
+&lt;!-- head ... -->
+&lt;body>
+&lt;div id="app">
+    &lt;h1>Welcome to {&zwj;{name}}&lt;/h1>
+&lt;/div>
+&lt;script src="app.js">&lt;/script>
+&lt;/body>
+&lt;/html></pre>
+
+        <p>And create your app.js file:</p>
+
+        <pre>
+import Zerv from "@zerv/framework";
+Zerv.disableDebugLogging();
+
+const app = new Zerv("#app");
+app.data.name = "My First App";
+
+app.render();</pre>
+
+        <p>Build your app using a bundler like <a href="https://parceljs.org">Parcel</a>:</p>
+
+        <pre>parcel build index.html</pre>
+
+        <h2>Template Engine Basics</h2>
+        <p>The template engine can do lots more than simply replacing values in a file.</p>
+
+        <h3>How to use the template engine</h3>
+        <p>If you want to use it in the text content of an element, surround the name of the variable you want to
+            link to with double squigly brackets (i.e. <code>{&zwj;{</code> and <code>}}</code>). However, this will
+            not work for attributes. Instead, prepend the attribute with <code>z-bind:</code>, and it will act the
+            same as templates in text source.</p>
+
+        <h3>Live Value Updates</h3>
+        <p>Add a template value to your webpage:</p>
+
+        <pre>&lt;p>Welcome, {&zwj;{user.name}}&lt;/p></pre>
+
+        <p>What happens if the user wants to change their username? Instead of reloading the page or putting the
+            name in an element, you can simply update the data value:</p>
+
+        <pre>
+// before render:
+app.data.user = {
+    name: "Jeff007"
+};
+
+// when they change their username:
+app.data.user.name = "Xx_JEFF_xX";</pre>
+
+        <p>The value will automatically update!</p>
+
+        <h3>Javascript Expressions</h3>
+        <p>Javascript expressions can be used inside template values, just as they would in normal Javascript. This
+            allows for you to modify the value without having to create more values in the data.</p>
+
+        <pre>
+&lt;p>Multiplication result: {&zwj;{doubler.input * 2}}&lt;/p></pre>
+
+        <p>If you're scared that this internally uses <code>eval</code>, don't be - its scope is limited to the data
+        you input, and it doesn't support anything dangerous, as it is using a custom evaluator. To find out what it
+        <em>does</em> support, go <a href="#expression-support.html">here</a>.</p>
+
+        <h3>Input linkage</h3>
+        <p>Most types of inputs can be linked to a data value using the <code>z-bind</code> attribute (note, this is
+            different to prepending an attribute with <code>z-bind:</code>). Set the value of the attribute to the
+            name of the variable you want to link it to - now, any changes in the input will update the variable,
+            however currently changes in the variable <strong>will not</strong> update the input.</p>
+        <p>The <code>z-bind</code> attribute supports most types of inputs, as well as <code>content-editable</code>
+            elements and textareas.</p>
+
+    </main>
+
+</div>
+<script src="app.ts"></script>
+</body>
+</html>

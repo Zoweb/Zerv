@@ -2,6 +2,6 @@
   "version": 2,
   "alias": "zerv.zoweb.me",
   "builds": [
-    {"src":  "package.json", "use":  "@now/static-build"}
+    {"src": "docs/package.json", "use":  "@now/static-build"}
   ]
 }
